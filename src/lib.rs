@@ -1,2 +1,2 @@
-pub mod testing;
 pub mod exif;
+pub mod testing;
