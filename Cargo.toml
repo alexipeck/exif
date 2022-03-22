@@ -1,0 +1,10 @@
+[package]
+name = "exif"
+version = "0.5.0"
+authors = ["Alexi Peck <alexinicolaspeck@gmail.com>"]
+edition = "2021"
+
+[lib]
+doctest = false
+
+[dependencies]
