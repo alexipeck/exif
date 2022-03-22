@@ -15,6 +15,13 @@ pub fn exiftool_available() -> bool {
         .spawn()
         .is_err();
 }
+
+pub enum Mode {
+    All,
+    Whitelist(Arc<HashSet<String>>),
+    Blacklist(Arc<HashSet<String>>),
+}
+
 pub struct Exif {
     pub attributes: HashMap<String, String>,
 }
@@ -25,18 +32,7 @@ impl Exif {
             attributes: HashMap::new(),
         }
     }
-
-    pub fn new_whitelisted(_file_path: &Path, _whitelisted_tags: Arc<HashSet<String>>) -> Self {
-        let exif = Self::default();
-        exif
-    }
-
-    pub fn new_blacklisted(_file_path: &Path, _blacklisted_tags: Arc<HashSet<String>>) -> Self {
-        let exif = Self::default();
-        exif
-    }
-
-    pub fn new(file_path: &Path) -> Result<Self, String> {
+    pub fn new(file_path: &Path, mode: Mode) -> Result<Self, String> {
         let mut exif = Self::default();
         let child = match Command::new("exiftool")
             .arg(file_path)
@@ -79,6 +75,25 @@ impl Exif {
             if tag == "" {
                 continue;
             }
+            
+            match &mode {
+                Mode::All => {},
+                Mode::Whitelist(list) => {
+                    if list.contains(&tag) {
+                        break;
+                    } else {
+                        continue;
+                    }
+                },
+                Mode::Blacklist(list) => {
+                    if !list.contains(&tag) {
+                        break;
+                    } else {
+                        continue;
+                    }
+                },
+            }
+
             let value = match line_split.last() {
                 Some(value) => value.trim().to_string(),
                 None => {
