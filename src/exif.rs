@@ -1,44 +1,41 @@
 use std::{
     collections::{HashMap, HashSet},
     path::Path,
-    process::{exit, Command, Stdio},
+    process::{Command, Stdio},
     sync::Arc,
-    thread,
     time::Duration,
 };
 
 pub const EXIT_DELAY: Duration = Duration::from_millis(250);
 
+
+pub fn exiftool_available() -> bool {
+    return !Command::new("exiftool")
+        .stdout(Stdio::null())
+        .stderr(Stdio::null())
+        .spawn()
+        .is_err()
+}
 pub struct Exif {
     pub attributes: HashMap<String, String>,
 }
 
 impl Exif {
     fn default() -> Self {
-        if Command::new("exiftool")
-            .stdout(Stdio::null())
-            .stderr(Stdio::null())
-            .spawn()
-            .is_err()
-        {
-            println!("Error: Missing dependency ffmpeg.");
-            thread::sleep(EXIT_DELAY);
-            exit(1);
-        }
         Self {
             attributes: HashMap::new(),
         }
     }
 
-    /* pub fn new_whitelisted(_file_path: &Path, _whitelisted_tags: Arc<HashSet<String>>) -> Self {
+    pub fn new_whitelisted(_file_path: &Path, _whitelisted_tags: Arc<HashSet<String>>) -> Self {
         let exif = Self::default();
         exif
-    } */
+    }
 
-    /* pub fn new_blacklisted(_file_path: &Path, _blacklisted_tags: Arc<HashSet<String>>) -> Self {
+    pub fn new_blacklisted(_file_path: &Path, _blacklisted_tags: Arc<HashSet<String>>) -> Self {
         let exif = Self::default();
         exif
-    } */
+    }
 
     pub fn new(file_path: &Path) -> Result<Self, String> {
         let mut exif = Self::default();

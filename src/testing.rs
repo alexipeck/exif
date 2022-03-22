@@ -2,7 +2,14 @@
 mod tests {
     use std::path::Path;
 
-    use crate::exif::Exif;
+    use crate::exif::{Exif, exiftool_available};
+
+    #[test]
+    fn test_exiftool_available() {
+        if !exiftool_available() {
+            panic!("Exiftool not available for execution.");
+        }
+    }
 
     #[test]
     fn test_pull_exif_data() {
