@@ -1,7 +1,7 @@
 [package]
-name = "exif"
-version = "0.5.0"
-authors = ["Alexi Peck <alexinicolaspeck@gmail.com>"]
+name = "peck-exif"
+version = "1.0.0"
+authors = ["Alexi Peck"]
 edition = "2021"
 
 [lib]

@@ -15,6 +15,7 @@ mod tests {
 
     #[test]
     fn test_pull_exif_data_all() {
+        println!("Starting test.");
         match Exif::new(Path::new(TEST_FILE_PATH), Mode::All) {
             Ok(exif) => {
                 for (tag, value) in exif.attributes.iter() {
@@ -25,10 +26,12 @@ mod tests {
                 panic!("{}", err);
             }
         };
+        println!("Ending test.");
     }
-
+    
     #[test]
     fn test_pull_exif_data_whitelist() {
+        println!("Starting test.");
         let whitelist = create_list_from_vec(vec![
             "GPSLatitude",
             "GPSLongitude",
@@ -41,7 +44,6 @@ mod tests {
             "FieldOfView",
             "FocalLength",
         ]);
-
         match Exif::new(Path::new(TEST_FILE_PATH), Mode::Whitelist(whitelist)) {
             Ok(exif) => {
                 for (tag, value) in exif.attributes.iter() {
@@ -52,10 +54,12 @@ mod tests {
                 panic!("{}", err);
             }
         };
+        println!("Ending test.");
     }
-
+    
     #[test]
     fn test_pull_exif_data_blacklist() {
+        println!("Starting test.");
         let blacklist = create_list_from_vec(vec![
             "SerialNumber",
             "FileModificationDate/Time",
@@ -63,7 +67,6 @@ mod tests {
             "XPComment",
             "XPKeywords",
         ]);
-
         match Exif::new(Path::new(TEST_FILE_PATH), Mode::Blacklist(blacklist)) {
             Ok(exif) => {
                 for (tag, value) in exif.attributes.iter() {
@@ -74,5 +77,6 @@ mod tests {
                 panic!("{}", err);
             }
         };
+        println!("Ending test.");
     }
 }

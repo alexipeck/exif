@@ -88,13 +88,6 @@ impl Exif {
             }
         };
 
-        let stdout_output = match String::from_utf8(output.stdout) {
-            Ok(output) => output,
-            Err(err) => {
-                return Err(ExifError::FromUtf8Error(err.to_string()));
-            }
-        };
-
         let stderr_output = match String::from_utf8(output.stderr) {
             Ok(output) => output,
             Err(err) => {
@@ -106,7 +99,14 @@ impl Exif {
             return Err(ExifError::FileNotFound(stderr_output.trim().to_string()));
         }
 
-        let output = stdout_output.split('\n');
+        let output = match String::from_utf8(output.stdout) {
+            Ok(output) => output,
+            Err(err) => {
+                return Err(ExifError::FromUtf8Error(err.to_string()));
+            }
+        };
+
+        let output = output.split('\n');
         for line in output {
             let line = String::from(line);
             let line_split = line.split(':');
@@ -129,16 +129,12 @@ impl Exif {
             match &mode {
                 Mode::All => {}
                 Mode::Whitelist(list) => {
-                    if list.contains(&tag) {
-                        break;
-                    } else {
+                    if !list.contains(&tag) {
                         continue;
                     }
                 }
                 Mode::Blacklist(list) => {
-                    if !list.contains(&tag) {
-                        break;
-                    } else {
+                    if list.contains(&tag) {
                         continue;
                     }
                 }
