@@ -1,8 +1,10 @@
 [package]
 name = "peck-exif"
 version = "1.0.0"
-authors = ["Alexi Peck"]
+license = "MIT"
 edition = "2021"
+categories = ["filesystem, parsing"]
+authors = ["Alexi Peck"]
 
 [lib]
 doctest = false
