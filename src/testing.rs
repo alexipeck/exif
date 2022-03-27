@@ -28,7 +28,7 @@ mod tests {
         };
         println!("Ending test.");
     }
-    
+
     #[test]
     fn test_pull_exif_data_whitelist() {
         println!("Starting test.");
@@ -56,7 +56,7 @@ mod tests {
         };
         println!("Ending test.");
     }
-    
+
     #[test]
     fn test_pull_exif_data_blacklist() {
         println!("Starting test.");

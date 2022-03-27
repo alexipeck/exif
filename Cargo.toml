@@ -1,6 +1,7 @@
 [package]
 name = "peck-exif"
 version = "1.0.0"
+description = "Exif reader"
 license = "MIT"
 edition = "2021"
 repository = "https://github.com/alexipeck/exif"
