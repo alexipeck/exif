@@ -7,6 +7,7 @@ edition = "2021"
 repository = "https://github.com/alexipeck/exif"
 categories = ["filesystem, parsing"]
 authors = ["Alexi Peck"]
+exclude = ["/target"]
 
 [lib]
 doctest = false
