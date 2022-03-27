@@ -8,6 +8,7 @@ use std::{
 
 type List = Arc<HashSet<String>>;
 
+#[derive(Clone, Debug)]
 pub enum ExifError {
     FileNotFound(String),
     TagError(String),
@@ -51,22 +52,19 @@ pub fn exiftool_available() -> bool {
         .is_ok();
 }
 
+#[derive(Clone)]
 pub enum Mode {
     All,
     Whitelist(List),
     Blacklist(List),
 }
 
+#[derive(Clone, Debug, Default)]
 pub struct Exif {
     pub attributes: HashMap<String, String>,
 }
 
 impl Exif {
-    fn default() -> Self {
-        Self {
-            attributes: HashMap::new(),
-        }
-    }
     pub fn new(file_path: &Path, mode: Mode) -> Result<Self, ExifError> {
         let mut exif = Self::default();
         let child = match Command::new("exiftool")
